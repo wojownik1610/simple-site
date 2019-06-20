@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pl-PL">
+<head>
+    <meta charset="utf-8"/>
+    <title>Losowanie</title>
+
+    <font size="6" width="150" color="red" align="center" />
+        <script type="text/javascript">
+            function losowanie(){
+                /*Zmienne*/
+                    var ileCyf = document.getElementById("ileCyfrPoPrzecinku");
+                    var ileCyfr = ileCyf.options[ileCyf.selectedIndex].value;
+                    var ile = parseInt(document.getElementById("ile").value);
+                    var odL = parseInt(document.getElementById("od").value);
+                    var doL = parseInt(document.getElementById("do").value);
+                /*Błędne dane*/
+                    if(isNaN(ile)){
+                        alert("Podaj ile cyfr ma zostać wylosowane!");
+                            return;
+                    }
+                    if(isNaN(odL)){
+                        alert("Podaj dolną granicę przedziału cyfr do losowania!");
+                            return;
+                    }
+                    if(isNaN(doL)){
+                        alert("Podaj górną granicę przedziału cyfr do losowania!");
+                            return;
+                    }
+                    if(odL>doL){
+                        alert("Błędny przedział, dolna granica przedziału nie może miec większej wartości niż górna!");
+                            return;
+                    }
+                    if(odL==doL){
+                        alert("Błędny przedział, liczby nie mogą byc sobie równe!");
+                            return;
+                    }
+                    if(ile<1){
+                        alert("Nie można wylosować tylu liczb!");
+                            return;
+                    }
+                /*Funkcja gółówna*/
+                        var mnoznik=Math.pow(10,ileCyfr)
+                        document.getElementById("wynik").innerHTML="";
+                    for(var i=0; i<ile; i++){
+                        var a = Math.floor(Math.random()*(doL-odL+1)*mnoznik+odL*mnoznik)/mnoznik;
+                        document.getElementById("wynik").innerHTML+=a+" | ";
+                    }
+            }   
+        </script>
+</head>
+<body BGCOLOR="yellow">
+    <h1>Losowanie liczb</h1>
+    <font color="black" align="left" />
+
+    <form action="..." >
+        <h7><b>Ile cyfr po przecinku?</b></h7>
+      <select id="ileCyfrPoPrzecinku" >
+            <optgroup label="Ile cyfr po przecinku">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option  value="3">3</option>
+                <option  value="4">4</option>
+                <option  value="5">5</option>
+                <option  value="6">6</option>
+                <option  value="7">7</option>
+                <option  value="8">8</option>
+                <option  value="9">9</option>   
+            </optgroup>
+       </select>
+        <br>
+        <h7><b>Ile cyfr ma zostać wylosowane</b></h7>
+         <input type="text" id="ile" value="1" />
+    </form >
+    
+    <h7><b>Przedział cyfr</b> (liczby całkowite):</h7>
+            <font size="4"/>
+                <h7> Od:</h7>
+                     <input type="text" id="od" />
+                <h7> Do:</h7>
+                     <input type="text" id="do" />
+    <br>
+    <input type="submit" value="Losuj" onclick="losowanie()" /> 
+    <input type="submit" value="Powrót do menu" onclick="location.href='index.html';" /> 
+         </body>
+    <div id="wynik"></div>
+</html>
