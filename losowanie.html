@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pl-PL">
+<head>
+    <meta charset="utf-8"/>
+    <title>Losowanie</title>
+
+    <font size="6" width="150" color="red" align="center" />
+        <script type="text/javascript">
+            function losowanie(){
+                var ileCyf = document.getElementById("ileCyfrPoPrzecinku");
+                var ileCyfr = ileCyf.options[ileCyf.selectedIndex].value;
+                var ile = parseInt(document.getElementById("ile").value);
+                var odL = parseInt(document.getElementById("od").value);
+                var doL = parseInt(document.getElementById("do").value);
+                if(isNaN(ile) || isNaN(odL) || isNaN(doL) || odL>=doL || ile<1){
+                   alert("Błędne dane");
+                    return;
+                } 
+                var mnoznik=Math.pow(10,ileCyfr)
+                document.getElementById("wynik").innerHTML="";
+                console.log(mnoznik);
+               for(var i=0; i<ile; i++){
+                   var a = Math.floor(Math.random()*(doL-odL)*mnoznik+odL*mnoznik)/mnoznik;
+                    console.log(a);
+                   document.getElementById("wynik").innerHTML+=a+" | ";
+               }
+            }
+        </script>
+</head>
+<body BGCOLOR="yellow">
+    <h1>Losowanie liczb</h1>
+    <font color="black" align="left" />
+
+    <form action="..." >
+       <h7> Ile cyfr po przecinku?</h7>
+      <select id="ileCyfrPoPrzecinku" >
+            <optgroup label="Ile cyfr po przecinku">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option  value="3">3</option>
+                <option  value="4">4</option>
+                <option  value="5">5</option>
+                <option  value="6">6</option>
+                <option  value="7">7</option>
+                <option  value="8">8</option>
+                <option  value="9">9</option>   
+            </optgroup>
+       </select>
+        <br>
+        <h7>Ile cyfr ma zostać wylosowane</h7>
+         <input type="text" id="ile" value="1" />
+    </form >
+    
+		<h7>Przedział cyfr:</h7>
+            <font size="4"/>
+                <h7> Od:</h7>
+                     <input type="text" id="od" />
+                <h7> Do:</h7>
+                     <input type="text" id="do" />
+    <br>
+    <input type="submit" value="Losuj" onclick="losowanie()" /> 
+         </body>
+    <div id="wynik"></div>
+</html>

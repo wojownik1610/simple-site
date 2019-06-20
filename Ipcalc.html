@@ -1,0 +1,206 @@
+<!DOCTYPE>
+<html lang="pl">
+<head>
+	<meta charset="UTF-8">
+
+<script type="text/javascript">
+	
+	  
+		function policz(){
+              var pole = document.getElementById("adresIp").value;
+            var maskaD;
+            var oktet1D=1;
+            var oktet2D;
+            var oktet3D;
+            var oktet4D;
+            var binarny = [];
+		  var miejsceKropki=0;
+            var ileKropek=0;
+            var podsiec;
+         
+			for(a=0; a<pole.length; a++)
+			{ 
+					if(pole.charAt(a)=="/") {
+						maskaD=parseInt(pole.substring(a+1,pole.length));
+                        oktet4D=parseInt(pole.substring(miejsceKropki,a));
+                       
+					}
+                if(pole.charAt(a)=="."){
+                    
+                    if(ileKropek==0) oktet1D=parseInt(pole.substring(miejsceKropki,a));
+                     if(ileKropek==1) oktet2D=parseInt(pole.substring(miejsceKropki,a));
+                     if(ileKropek==2) oktet3D=parseInt(pole.substring(miejsceKropki,a));
+                    
+                    
+                    ileKropek=ileKropek+1;
+                    miejsceKropki=a+1;
+                }
+			}
+            
+            //adres
+            for( i=0; i<8; i++){
+               binarny.unshift(oktet4D%2);
+                oktet4D=(oktet4D-oktet4D%2)/2;
+            }
+            for( i=0; i<8; i++){
+               binarny.unshift(oktet3D%2);
+                oktet3D=(oktet3D-oktet3D%2)/2;
+            }
+            for( i=0; i<8; i++){
+               binarny.unshift(oktet2D%2);
+                oktet2D=(oktet2D-oktet2D%2)/2;
+            }
+            for( i=0; i<8; i++){
+               binarny.unshift(oktet1D%2);
+                oktet1D=(oktet1D-oktet1D%2)/2;
+            }
+             
+             
+             
+            console.log(binarny);
+            //sieć
+            oktet1D=0
+            oktet2D=0
+            oktet3D=0
+            oktet4D=0
+            for(i=0; i<32; i++){
+                if(i<8){
+                    oktet1D+=binarny[i]*Math.pow(2,7-i);
+                }
+                if(i>=8 && i<16){
+                    oktet2D+=binarny[i]*Math.pow(2,7-(i-8));
+                }
+                if(i>=16 && i<24){
+                    oktet3D+=binarny[i]*Math.pow(2,7-(i-16));
+                }
+                if(i>=24 && i<32){
+                    oktet4D+=binarny[i]*Math.pow(2,7-(i-24));
+                 }
+            }
+             document.getElementById("sie").innerHTML="Sieć:"+oktet1D+"."+oktet2D+"."+oktet3D+"."+oktet4D;
+            //podsieć
+           oktet1D=0
+            oktet2D=0
+            oktet3D=0
+            oktet4D=0
+            for(i=0; i<32; i++){
+                if(i<8){
+                    if(i<maskaD){
+                        oktet1D+=binarny[i]*Math.pow(2,7-i);
+                    }
+                    else oktet1D+=0;
+                }
+                if(i>=8 && i<16){
+                    if(i<maskaD){
+                        oktet2D+=binarny[i]*Math.pow(2,7-(i-8));
+                    }
+                    else oktet1D+=0;
+                }
+                if(i>=16 && i<24){
+                    if(i<maskaD){
+                        oktet3D+=binarny[i]*Math.pow(2,7-(i-16));
+                    }
+                    else oktet1D+=0;
+                }
+                if(i>=24 && i<32){
+                    if(i<maskaD){
+                        oktet4D+=binarny[i]*Math.pow(2,7-(i-24));
+                    }
+                    else oktet1D+=0;
+                 }
+            }
+            document.getElementById("podsie").innerHTML="Podsieć:"+oktet1D+"."+oktet2D+"."+oktet3D+"."+oktet4D;
+            //broadcast
+              oktet1D=0
+            oktet2D=0
+            oktet3D=0
+            oktet4D=0
+            for(i=0; i<32; i++){
+                if(i<8){
+                    if(i<maskaD){
+                        oktet1D+=binarny[i]*Math.pow(2,7-i);
+                    }
+                    else oktet1D+=Math.pow(2,7-i);
+                }
+                if(i>=8 && i<16){
+                    if(i<maskaD){
+                        oktet2D+=binarny[i]*Math.pow(2,7-(i-8));
+                    }
+                    else oktet2D+=Math.pow(2,7-(i-8));
+                }
+                if(i>=16 && i<24){
+                    if(i<maskaD){
+                        oktet3D+=binarny[i]*Math.pow(2,7-(i-16));
+                    }
+                    else oktet3D+=Math.pow(2,7-(i-16));
+                }
+                if(i>=24 && i<32){
+                    if(i<maskaD){
+                        oktet4D+=binarny[i]*Math.pow(2,7-(i-24));
+                    }
+                    else oktet4D+=Math.pow(2,7-(i-24));
+                 }
+            }
+             document.getElementById("broa").innerHTML="Broadcast:"+oktet1D+"."+oktet2D+"."+oktet3D+"."+oktet4D;
+            //ile hostów
+            var ileHos=0;
+            for(i=0; i<(32-maskaD); i++) ileHos+=Math.pow(2,i);
+            document.getElementById("ileHost").innerHTML="Max ilość hostów w podsieci: "+ (ileHos-1);
+            //maska
+             oktet1D=0
+            oktet2D=0
+            oktet3D=0
+            oktet4D=0
+            for(i=0; i<32; i++){
+                if(i<8){
+                    if(i<maskaD){
+                        oktet1D+=Math.pow(2,7-i);
+                    }
+                }
+                if(i>=8 && i<16){
+                    if(i<maskaD){
+                        oktet2D+=Math.pow(2,7-(i-8));
+                    }
+                }
+                if(i>=16 && i<24){
+                    if(i<maskaD){
+                        oktet3D+=Math.pow(2,7-(i-16));
+                    }
+                }
+                if(i>=24 && i<32){
+                    if(i<maskaD){
+                        oktet4D+=Math.pow(2,7-(i-24));
+                    }
+                 }
+                
+            }
+             document.getElementById("maska").innerHTML="Maska:"+oktet1D+"."+oktet2D+"."+oktet3D+"."+oktet4D +" ("+maskaD+")";
+            
+            //klasa
+            var klasa
+           if(binarny[0]==0) klasa="A";
+            if(binarny[0]==1 && binarny[1]==0) klasa="B";
+            if(binarny[0]==1 && binarny[1]==1 && binarny[2]==0) klasa="C";
+            if(binarny[0]==1 && binarny[1]==1 && binarny[2]==1 && binarny[3]==0) klasa="D";
+           if(binarny[0]==1 && binarny[1]==1 && binarny[2]==1 && binarny[3]==1)  klasa="E";
+            document.getElementById("klasa").innerHTML="Klasa sieci: "+klasa;
+		}
+  
+	</script> 	
+</head>
+<body BGCOLOR="yellow">
+		<p id="akapit1">Podaj adres IP (schemat 192.168.25.36/27)</p>
+		
+		<form action="...">
+			<input type="text" id="adresIp"/>
+		</form>
+		<input type="submit" value="Zatwierdź" onclick="policz()"/>
+    <p id="sie"></p>
+    <p id="podsie"></p>
+    <p id="broa"></p>
+    <p id="ileHost"></p>
+    <p id="maska"></p>
+    <p id="klasa"></p>
+	
+</body>
+</html>
